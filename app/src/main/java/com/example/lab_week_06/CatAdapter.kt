@@ -19,6 +19,13 @@ class CatAdapter(
         notifyDataSetChanged()
     }
 
+    fun removeItem(position: Int) {
+        if (position in cats.indices) {
+            cats.removeAt(position)
+            notifyItemRemoved(position)
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolder {
         val view = layoutInflater.inflate(R.layout.item_list, parent, false)
         return CatViewHolder(view, imageLoader, onItemClick)
