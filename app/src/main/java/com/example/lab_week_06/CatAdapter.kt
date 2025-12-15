@@ -1,39 +1,33 @@
 package com.example.lab_week_06
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lab_week_06.model.CatModel
 
-class CatAdapter(
-    private val layoutInflater: LayoutInflater,
-    private val imageLoader: ImageLoader,
-    private val onItemClick: (CatModel) -> Unit
-) : RecyclerView.Adapter<CatViewHolder>() {
+class CatAdapter(private val catList: List<Cat>) :
+    RecyclerView.Adapter<CatAdapter.CatViewHolder>() {
 
-    private val cats = mutableListOf<CatModel>()
-
-    fun setData(newCats: List<CatModel>) {
-        cats.clear()
-        cats.addAll(newCats)
-        notifyDataSetChanged()
-    }
-
-    fun removeItem(position: Int) {
-        if (position in cats.indices) {
-            cats.removeAt(position)
-            notifyItemRemoved(position)
-        }
+    class CatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val imgCat: ImageView = itemView.findViewById(R.id.imgCat)
+        val tvName: TextView = itemView.findViewById(R.id.tvName)
+        val tvDesc: TextView = itemView.findViewById(R.id.tvDesc)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolder {
-        val view = layoutInflater.inflate(R.layout.item_list, parent, false)
-        return CatViewHolder(view, imageLoader, onItemClick)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_list, parent, false)
+        return CatViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: CatViewHolder, position: Int) {
-        holder.bindData(cats[position])
+        val cat = catList[position]
+        holder.tvName.text = cat.name
+        holder.tvDesc.text = cat.description
+        holder.imgCat.setImageResource(cat.image)
     }
 
-    override fun getItemCount(): Int = cats.size
+    override fun getItemCount(): Int = catList.size
 }
