@@ -7,7 +7,8 @@ import com.example.lab_week_06.model.CatModel
 
 class CatAdapter(
     private val layoutInflater: LayoutInflater,
-    private val imageLoader: ImageLoader
+    private val imageLoader: ImageLoader,
+    private val onItemClick: (CatModel) -> Unit
 ) : RecyclerView.Adapter<CatViewHolder>() {
 
     private val cats = mutableListOf<CatModel>()
@@ -19,12 +20,8 @@ class CatAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolder {
-        val view = layoutInflater.inflate(
-            R.layout.item_list,   // ← INI SEKARANG AMAN
-            parent,
-            false
-        )
-        return CatViewHolder(view, imageLoader)
+        val view = layoutInflater.inflate(R.layout.item_list, parent, false)
+        return CatViewHolder(view, imageLoader, onItemClick)
     }
 
     override fun onBindViewHolder(holder: CatViewHolder, position: Int) {
